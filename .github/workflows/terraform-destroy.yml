@@ -1,13 +1,8 @@
 name: "Terraform Destroy"
 
 on:
-  workflow_dispatch:
+  push:
     branches: [main]
-    inputs:
-      confirm_destroy:
-        description: 'Type "destroy" to confirm deletion of all resources'
-        required: true
-        type: string
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
