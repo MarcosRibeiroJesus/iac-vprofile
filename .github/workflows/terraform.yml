@@ -84,3 +84,27 @@ jobs:
         if: steps.apply.outcome == 'success' && steps.getkubeconfig.outcome == 'success'
         run: |
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0/deploy/static/provider/aws/deploy.yaml
+
+  terraform-destroy:
+    name: "Destroy terraform resources"
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[destroy]')
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.3
+
+      - name: Terraform Init
+        run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
