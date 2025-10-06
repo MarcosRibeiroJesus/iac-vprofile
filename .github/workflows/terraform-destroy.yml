@@ -2,6 +2,7 @@ name: "Terraform Destroy"
 
 on:
   workflow_dispatch:
+    branches: [main]
     inputs:
       confirm_destroy:
         description: 'Type "destroy" to confirm deletion of all resources'
