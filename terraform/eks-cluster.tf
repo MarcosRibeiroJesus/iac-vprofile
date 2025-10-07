@@ -38,7 +38,4 @@ module "eks" {
       desired_size   = 1
     }
   }
-
-  # Ensure EKS is created after VPC, and destroyed before VPC
-  depends_on = [module.vpc]
 }
