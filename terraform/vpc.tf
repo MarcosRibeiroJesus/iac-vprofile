@@ -23,7 +23,4 @@ module "vpc" {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"             = 1
   }
-
-  # Ensure VPC is destroyed after EKS
-  depends_on = [module.eks]
 }
