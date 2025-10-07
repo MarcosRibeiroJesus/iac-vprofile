@@ -3,7 +3,7 @@ name: "Vprofile IAC"
 on:
   push:
     branches:
-      # - main
+      - main
       - stage
     paths:
       - terraform/**
@@ -21,7 +21,6 @@ env:
   # S3 bucket for the Terraform state
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE }}
   AWS_REGION: us-east-1
-  AWS_EKS_REGION: us-east-2
   EKS_CLUSTER: vprofile-eks
 
 jobs:
@@ -78,7 +77,7 @@ jobs:
       - name: Get kube config failure
         id: getkubeconfig
         if: steps.apply.outcome == 'success'
-        run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER }} --region ${{ env.AWS_EKS_REGION }}
+        run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER }} --region ${{ env.AWS_REGION }}
 
       - name: Install Ingress NGINX Controller
         if: steps.apply.outcome == 'success' && steps.getkubeconfig.outcome == 'success'
